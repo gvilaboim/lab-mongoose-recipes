@@ -17,6 +17,7 @@ mongoose
   })
   .then(() => {
     // Run your code here, after you have insured that the connection was made
+
     Recipe.create({
       title: "Cozido",
       level: "UltraPro Chef",
@@ -26,8 +27,41 @@ mongoose
       duration : 15,
       creator : "Gonçalo & Yinong"
       }).then(newRecipe => {
-      console.log("Recipe inserted!!")
+          console.log(newRecipe.title)   
+
   })
+
+
+}).then(() => {
+
+   return Recipe.insertMany( data );
+
+  }).then((response) => {
+
+    response.forEach(element => {
+      console.log(element.title)
+  })
+
+  
+  }).then(() => {
+
+
+
+   
+    return Recipe.findOneAndUpdate({ title: 'Rigatoni alla Genovese' }, { duration: 100 }, { new: true })
+  .then((res) => {
+
+    console.log(res)
+   })
+
+  }).then(() => {
+   return Recipe.deleteOne( { "title" :"Carrot Cake" } );
+  }).then((res) =>{
+    console.log(res)
+  }).then(() => {
+     mongoose.connection.close();
+  }).then(() => {
+    console.log("Database Shutdown!")
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
